@@ -12,8 +12,6 @@ venv/
 # Django media (user uploads)
 media/
 
-# Static files collected
-staticfiles/
 
 
 
