@@ -1,7 +1,7 @@
 # Python
 __pycache__/
 *.pyc
-*.pyo
+
 *.pyd
 *.sqlite3
 
@@ -15,12 +15,6 @@ media/
 # Static files collected
 staticfiles/
 
-# IDE / Editor
-.vscode/
-.idea/
-*.swp
-*.swo
 
-# OS-specific
-.DS_Store
-Thumbs.db
+
+
