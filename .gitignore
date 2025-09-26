@@ -1,16 +1,10 @@
-# Python
-__pycache__/
-*.pyc
 
-*.pyd
-*.sqlite3
 
 # Virtual environment
 venv/
 .env
 
-# Django media (user uploads)
-media/
+
 
 
 
