@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Users</h1>
+<div class="user-grid">
+  {% for u in users %}
+    <a class="user-circle" href="{% url 'user_profile' u.username %}">
+      {% if u.profile.profile_pic %}
+        <img src="{{ u.profile.profile_pic.url }}" alt="{{ u.username }}" />
+      {% else %}
+        <div class="avatar-placeholder">{{ u.username|slice:":1"|upper }}</div>
+      {% endif %}
+      <div class="username">{{ u.username }}</div>
+    </a>
+  {% endfor %}
+</div>
+{% endblock %}

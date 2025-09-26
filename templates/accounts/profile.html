@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ profile_user.username }}</h2>
+
+{% if profile_user.profile.profile_pic %}
+  <img src="{{ profile_user.profile.profile_pic.url }}" alt="profile" width="120" height="120" class="profile-pic">
+{% endif %}
+
+{% if user == profile_user %}
+  <p><a href="{% url 'upload_file' %}">Upload new file</a></p>
+{% endif %}
+
+<h3>Images</h3>
+<div class="thumb-grid">
+  {% for f in images %}
+    <div class="thumb">
+      <a href="{{ f.file.url }}" target="_self">
+        <img src="{{ f.file.url }}" alt="{{ f.title }}" width="120" height="120">
+      </a>
+      <p>{{ f.title }}</p>   {# show title #}
+      {% if user == profile_user %}
+        | <a href="{% url 'delete_file' f.id %}">Delete</a>
+      {% endif %}
+    </div>
+  {% empty %}
+    <p>No images.</p>
+  {% endfor %}
+</div>
+
+<h3>Videos</h3>
+{% for f in videos %}
+  <div>
+    <a href="{{ f.file.url }}" target="_self">
+      <video width="240" controls>
+        <source src="{{ f.file.url }}" alt="{{ f.title }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </a>
+    <p>{{ f.title }}</p>   {# show title #}
+    {% if user == profile_user %}
+      | <a href="{% url 'delete_file' f.id %}">Delete</a>
+    {% endif %}
+  </div>
+{% empty %}
+  <p>No videos.</p>
+{% endfor %}
+
+<h3>Audio</h3>
+{% for f in audios %}
+  <div>
+    <audio controls>
+      <source src="{{ f.file.url }}" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <p>{{ f.title }}</p>   {# show title #}
+    {% if user == profile_user %}
+      | <a href="{% url 'delete_file' f.id %}">Delete</a>
+    {% endif %}
+  </div>
+{% empty %}
+  <p>No audio.</p>
+{% endfor %}
+
+<h3>Others</h3>
+{% for f in others %}
+  <div>
+    <a href="{{ f.file.url }}" download>{{ f.filename }}</a>
+    {% if user == profile_user %}
+      | <a href="{% url 'delete_file' f.id %}">Delete</a>
+    {% endif %}
+  </div>
+{% empty %}
+  <p>No other files.</p>
+{% endfor %}
+
+{% endblock %}
