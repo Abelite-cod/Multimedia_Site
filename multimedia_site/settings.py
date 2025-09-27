@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'media_app',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
