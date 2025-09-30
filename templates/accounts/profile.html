@@ -1,76 +1,71 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>{{ profile_user.username }}</h2>
 
+<h1>{{ profile_user.username }}'s Profile</h1>
+
+<!-- Profile Picture -->
 {% if profile_user.profile.profile_pic %}
-  <img src="{{ profile_user.profile.profile_pic.url }}" alt="profile" width="120" height="120" class="profile-pic">
+    <img src="{{ profile_user.profile.profile_pic.url }}" alt="{{ profile_user.username }}" width="150">
 {% endif %}
 
-{% if user == profile_user %}
-  <p><a href="{% url 'upload_file' %}">Upload new file</a></p>
+<!-- Bio -->
+<p>{{ profile_user.profile.bio }}</p>
+
+{% if is_owner %}
+    <h3>Update Profile</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ profile_form.as_p }}
+        <button type="submit" name="update_profile">Update Profile</button>
+    </form>
+
+    <h3>Upload a File</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ upload_form.as_p }}
+        <button type="submit" name="upload_file">Upload</button>
+    </form>
 {% endif %}
 
-<h3>Images</h3>
-<div class="thumb-grid">
-  {% for f in images %}
-    <div class="thumb">
-      <a href="{{ f.file.url }}" target="_self">
-        <img src="{{ f.file.url }}" alt="{{ f.title }}" width="120" height="120">
-      </a>
-      <p>{{ f.title }}</p>   {# show title #}
-      {% if user == profile_user %}
-        | <a href="{% url 'delete_file' f.id %}">Delete</a>
-      {% endif %}
-    </div>
-  {% empty %}
-    <p>No images.</p>
-  {% endfor %}
+<h3>Files</h3>
+<div>
+    <h4>Images</h4>
+    {% for f in images %}
+        <img src="{{ f.file.url }}" alt="{{ f.title }}" width="100">
+    {% empty %}
+        <p>No images uploaded.</p>
+    {% endfor %}
 </div>
 
-<h3>Videos</h3>
-{% for f in videos %}
-  <div>
-    <a href="{{ f.file.url }}" target="_self">
-      <video width="240" controls>
-        <source src="{{ f.file.url }}" alt="{{ f.title }}" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </a>
-    <p>{{ f.title }}</p>   {# show title #}
-    {% if user == profile_user %}
-      | <a href="{% url 'delete_file' f.id %}">Delete</a>
-    {% endif %}
-  </div>
-{% empty %}
-  <p>No videos.</p>
-{% endfor %}
+<div>
+    <h4>Videos</h4>
+    {% for f in videos %}
+        <video width="200" controls>
+            <source src="{{ f.file.url }}" type="video/mp4">
+        </video>
+    {% empty %}
+        <p>No videos uploaded.</p>
+    {% endfor %}
+</div>
 
-<h3>Audio</h3>
-{% for f in audios %}
-  <div>
-    <audio controls>
-      <source src="{{ f.file.url }}" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-    <p>{{ f.title }}</p>   {# show title #}
-    {% if user == profile_user %}
-      | <a href="{% url 'delete_file' f.id %}">Delete</a>
-    {% endif %}
-  </div>
-{% empty %}
-  <p>No audio.</p>
-{% endfor %}
+<div>
+    <h4>Audio</h4>
+    {% for f in audios %}
+        <audio controls>
+            <source src="{{ f.file.url }}">
+        </audio>
+    {% empty %}
+        <p>No audio files uploaded.</p>
+    {% endfor %}
+</div>
 
-<h3>Others</h3>
-{% for f in others %}
-  <div>
-    <a href="{{ f.file.url }}" download>{{ f.filename }}</a>
-    {% if user == profile_user %}
-      | <a href="{% url 'delete_file' f.id %}">Delete</a>
-    {% endif %}
-  </div>
-{% empty %}
-  <p>No other files.</p>
-{% endfor %}
+<div>
+    <h4>Others</h4>
+    {% for f in others %}
+        <a href="{{ f.file.url }}">{{ f.title|default:f.filename }}</a>
+    {% empty %}
+        <p>No other files uploaded.</p>
+    {% endfor %}
+</div>
 
 {% endblock %}

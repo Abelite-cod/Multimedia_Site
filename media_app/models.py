@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import os
+from cloudinary.models import CloudinaryField
 
 
 
@@ -13,7 +14,7 @@ class UploadedFile(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='files')
-    file = models.FileField(upload_to='MultimediaSite/uploads/')
+    file = CloudinaryField('file', folder='MultimediaSite/uploads')
     file_type = models.CharField(max_length=10, choices=FILE_TYPES, default='others')
     title = models.CharField(max_length=255, blank=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
