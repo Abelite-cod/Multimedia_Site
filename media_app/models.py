@@ -3,9 +3,6 @@ from django.contrib.auth.models import User
 import os
 
 
-def upload_path(instance, filename):
-    return f'uploads/user_{instance.user.id}/{filename}'
-
 
 class UploadedFile(models.Model):
     FILE_TYPES = [
@@ -16,7 +13,7 @@ class UploadedFile(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='files')
-    file = models.FileField(upload_to=upload_path)
+    file = models.FileField(upload_to='MultimediaSite/uploads/')
     file_type = models.CharField(max_length=10, choices=FILE_TYPES, default='others')
     title = models.CharField(max_length=255, blank=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)

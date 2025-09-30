@@ -4,14 +4,10 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 
 
-def user_profile_pic_upload_path(instance, filename):
-    return f'profile_pics/user_{instance.user.id}/{filename}'
-
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
-    profile_pic = models.ImageField(upload_to=user_profile_pic_upload_path, blank=True, null=True)
+    profile_pic = models.ImageField(upload_to='MultimediaSite/profile_pics/', blank=True, null=True)
 
     def __str__(self):
         return f"Profile: {self.user.username}"
