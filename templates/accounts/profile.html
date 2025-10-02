@@ -5,11 +5,64 @@
 
 <!-- Profile Picture -->
 {% if profile_user.profile.profile_pic %}
-    <img src="{{ profile_user.profile.profile_pic.url }}" alt="{{ profile_user.username }}" width="150">
-{% endif %}
+    <a href="{{ profile_user.profile.profile_pic.url }}">
+    <div class="user-circle"><img src="{{ profile_user.profile.profile_pic.url }}" alt="{{ profile_user.username }}" width="150"></div>
+    </a>
+    {% else %}
+        <div class="avatar-placeholder">{{ profile_user.username|slice:":1"|upper }}</div>
+      {% endif %}  
 
 <!-- Bio -->
 <p>{{ profile_user.profile.bio }}</p>
+
+
+
+<h3>Posts</h3>
+<div>
+    <h4>Images</h4>
+    {% for f in images %}
+        <a href="{{ f.file.url }}">
+        <img src="{{ f.file.url }}" alt="{{ f.title }}" width="100">
+        </a>
+    {% empty %}
+        <p>No images uploaded.</p>
+    {% endfor %}
+</div>
+
+<div>
+    <h4>Videos</h4>
+    {% for f in videos %}
+        <a href="{{ f.file.url }}">
+        <video width="200" controls>
+            <source src="{{ f.file.url }}" type="video/mp4">
+        </video>
+        </a>
+    {% empty %}
+        <p>No videos uploaded.</p>
+    {% endfor %}
+</div>
+
+<div>
+    <h4>Audio</h4>
+    {% for f in audios %}
+        <a href="{{ f.file.url }}">
+        <audio controls>
+            <source src="{{ f.file.url }}">
+        </audio>
+        </a>
+    {% empty %}
+        <p>No audio files uploaded.</p>
+    {% endfor %}
+</div>
+
+<div>
+    <h4>Others</h4>
+    {% for f in others %}
+        <a href="{{ f.file.url }}">{{ f.title|default:f.filename }}</a>
+    {% empty %}
+        <p>No other files uploaded.</p>
+    {% endfor %}
+</div>
 
 {% if is_owner %}
     <h3>Update Profile</h3>
@@ -26,46 +79,5 @@
         <button type="submit" name="upload_file">Upload</button>
     </form>
 {% endif %}
-
-<h3>Files</h3>
-<div>
-    <h4>Images</h4>
-    {% for f in images %}
-        <img src="{{ f.file.url }}" alt="{{ f.title }}" width="100">
-    {% empty %}
-        <p>No images uploaded.</p>
-    {% endfor %}
-</div>
-
-<div>
-    <h4>Videos</h4>
-    {% for f in videos %}
-        <video width="200" controls>
-            <source src="{{ f.file.url }}" type="video/mp4">
-        </video>
-    {% empty %}
-        <p>No videos uploaded.</p>
-    {% endfor %}
-</div>
-
-<div>
-    <h4>Audio</h4>
-    {% for f in audios %}
-        <audio controls>
-            <source src="{{ f.file.url }}">
-        </audio>
-    {% empty %}
-        <p>No audio files uploaded.</p>
-    {% endfor %}
-</div>
-
-<div>
-    <h4>Others</h4>
-    {% for f in others %}
-        <a href="{{ f.file.url }}">{{ f.title|default:f.filename }}</a>
-    {% empty %}
-        <p>No other files uploaded.</p>
-    {% endfor %}
-</div>
 
 {% endblock %}

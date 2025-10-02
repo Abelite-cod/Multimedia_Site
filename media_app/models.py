@@ -23,4 +23,4 @@ class UploadedFile(models.Model):
         return f"{self.file.name} ({self.file_type})"
 
     def filename(self):
-        return os.path.basename(self.file.name)
+        return os.path.basename(self.file.url)

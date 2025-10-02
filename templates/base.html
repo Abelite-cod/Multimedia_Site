@@ -8,7 +8,7 @@
 <body>
   <nav>
     {% if user.is_authenticated %}
-      Hello {{ user.username }} | <a href="{% url 'user_profile' user.username %}">Profile</a> | <a href="{% url 'logout' %}">Logout</a>
+      Hello {{ user.username }} | <a href="{% url 'user_profile' user.username %}">Profile</a> | <a href="{% url 'logout' %}">Logout</a> | <a href="{% url 'home' %}">Home</a>
     {% else %}
       <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>
     {% endif %}
